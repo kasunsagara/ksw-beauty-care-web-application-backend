@@ -3,19 +3,21 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import orderRouter from "./routes/orderRouter.js";
 import contactRouter from "./routes/contactRouter.js";  
-import cors from "cors";  
 
-dotenv.config(); 
+dotenv.config();
 
-const app = express();  
-
-const mongoUrl = process.env.MONGO_DB_URI; 
+const app = express(); 
 
 app.use(cors());
+
+app.use(bodyParser.json());
+
+const mongoUrl = process.env.MONGO_DB_URI; 
 
 mongoose.connect(mongoUrl,{});
 
@@ -24,8 +26,6 @@ const connection = mongoose.connection;
 connection.once("open", () => {
     console.log("Database connected");
 });
-
-app.use(bodyParser.json());
 
 app.use(
     
